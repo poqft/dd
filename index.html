@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝓭𝓻𝓮𝓪𝓶 𝓭𝓲𝓪𝓻𝔂</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #1a1a1a;
+            --card-bg: #2a2a2a;
+            --darker-card: #242424;
+            --dusty-pink: #D4A8A8;
+            --eucalyptus: #8BA892;
+            --light-text: #F0F0F0;
+            --medium-text: #B0B0B0;
+            --dark-gray: #888;
+            --border-color: #3a3a3a;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+            --border-radius: 16px;
+            --border-radius-sm: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            font-size: 2.4rem;
+            color: var(--dusty-pink);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-family: 'Georgia', serif;
+            letter-spacing: 1px;
+        }
+
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.6rem;
+            cursor: pointer;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-sm);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 12px 22px;
+            border-radius: 50px;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        nav ul li a i {
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background-color: rgba(212, 168, 168, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            border-color: var(--dusty-pink);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            padding: 30px 0 50px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 35px;
+            margin-top: 25px;
+            box-shadow: 0 8px 25px var(--shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--dusty-pink), var(--eucalyptus));
+        }
+
+        h1, h2 {
+            margin-bottom: 25px;
+            font-family: 'Georgia', serif;
+            position: relative;
+        }
+
+        h1 {
+            color: var(--dusty-pink);
+            text-align: center;
+            font-size: 2.4rem;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+        }
+
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--eucalyptus);
+            border-radius: 2px;
+        }
+
+        h2 {
+            color: var(--eucalyptus);
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-top: 30px;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--dusty-pink);
+        }
+
+        .rule-item {
+            margin-bottom: 18px;
+            padding-left: 30px;
+            position: relative;
+            color: var(--medium-text);
+            line-height: 1.7;
+        }
+
+        .rule-item::before {
+            content: "✦";
+            color: var(--eucalyptus);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .image-container {
+            width: 100%;
+            margin: 30px 0;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+            filter: brightness(0.9);
+        }
+
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+            color: var(--light-text);
+            padding: 18px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .separator {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--dusty-pink);
+            font-size: 1.3rem;
+            letter-spacing: 5px;
+            font-weight: 300;
+        }
+
+        .pink-accent {
+            color: var(--dusty-pink);
+            font-weight: 600;
+        }
+
+        .green-accent {
+            color: var(--eucalyptus);
+            font-weight: 600;
+        }
+
+        .pink-highlight {
+            background-color: rgba(212, 168, 168, 0.2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            border-left: 3px solid var(--dusty-pink);
+            color: var(--light-text);
+        }
+
+        .green-highlight {
+            background-color: rgba(139, 168, 146, 0.2);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            border-left: 3px solid var(--eucalyptus);
+            color: var(--light-text);
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(to right, var(--dusty-pink), var(--eucalyptus));
+            color: var(--light-text);
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .action-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .accent-border {
+            border-left: 5px solid var(--dusty-pink);
+            padding: 20px 25px;
+            margin: 25px 0;
+            background-color: rgba(212, 168, 168, 0.08);
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            border-right: 1px solid var(--border-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--dusty-pink);
+            color: var(--light-text);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            border: 2px solid var(--border-color);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--eucalyptus);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--eucalyptus);
+            color: var(--light-text);
+            padding: 16px 28px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            z-index: 100;
+            transition: transform 0.5s ease;
+            font-weight: 500;
+            max-width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .info-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(212, 168, 168, 0.1) 0%, rgba(139, 168, 146, 0.1) 100%);
+            border-radius: var(--border-radius-sm);
+            border-left: 5px solid var(--dusty-pink);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .counter-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--eucalyptus);
+        }
+
+        .roles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .role-card {
+            background: linear-gradient(135deg, rgba(42, 42, 42, 0.9) 0%, rgba(36, 36, 36, 0.9) 100%);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .role-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--dusty-pink);
+            box-shadow: 0 12px 25px rgba(212, 168, 168, 0.2);
+        }
+
+        .role-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--dusty-pink), var(--eucalyptus));
+        }
+
+        .role-icon {
+            font-size: 2.5rem;
+            color: var(--eucalyptus);
+            margin-bottom: 15px;
+            display: inline-block;
+            background: var(--darker-card);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 20px;
+            border: 2px solid var(--border-color);
+        }
+
+        .role-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dusty-pink);
+            margin-bottom: 10px;
+            font-family: 'Georgia', serif;
+        }
+
+        .role-source {
+            font-size: 1rem;
+            color: var(--eucalyptus);
+            background: var(--darker-card);
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            font-weight: 500;
+        }
+
+        .role-description {
+            color: var(--medium-text);
+            line-height: 1.6;
+            margin-top: 10px;
+            flex-grow: 1;
+        }
+
+        .roles-management {
+            background: var(--darker-card);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-login-section {
+            background: linear-gradient(135deg, rgba(139, 168, 146, 0.1) 0%, rgba(212, 168, 168, 0.1) 100%);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin: 30px 0;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .admin-login-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--eucalyptus);
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            color: var(--light-text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--dusty-pink);
+            box-shadow: 0 0 0 2px rgba(212, 168, 168, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--light-text);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark-gray);
+        }
+
+        .btn-danger {
+            background: linear-gradient(to right, #c44569, #e66767);
+            color: var(--light-text);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 103, 103, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(to right, #f39c12, #e67e22);
+            color: var(--light-text);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .role-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .edit-btn {
+            background: rgba(139, 168, 146, 0.2);
+            color: var(--eucalyptus);
+            border: 1px solid rgba(139, 168, 146, 0.3);
+        }
+
+        .edit-btn:hover {
+            background: rgba(139, 168, 146, 0.3);
+        }
+
+        .delete-btn {
+            background: rgba(231, 103, 103, 0.2);
+            color: #e66767;
+            border: 1px solid rgba(231, 103, 103, 0.3);
+        }
+
+        .delete-btn:hover {
+            background: rgba(231, 103, 103, 0.3);
+        }
+
+        .admin-only {
+            display: none;
+        }
+
+        .admin-only.visible {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease;
+            }
+            
+            nav.active {
+                max-height: 500px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 10px;
+            }
+            
+            nav ul li {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            nav ul li a {
+                justify-content: center;
+                padding: 14px;
+                border-radius: var(--border-radius-sm);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .content-card {
+                padding: 25px;
+            }
+            
+            .separator {
+                font-size: 1.1rem;
+                letter-spacing: 3px;
+            }
+            
+            .image-container img {
+                height: 200px;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .roles-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .role-card {
+                padding: 20px;
+            }
+            
+            .role-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-actions button {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .content-card {
+                padding: 20px;
+            }
+            
+            .image-title {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+            
+            .rule-item {
+                padding-left: 25px;
+            }
+            
+            .action-button {
+                width: 100%;
+                justify-content: center;
+                padding: 16px;
+            }
+            
+            .info-box {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .roles-management {
+                padding: 20px;
+            }
+            
+            .admin-status {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Модальное окно входа -->
+    <div id="loginModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="content-card" style="max-width: 450px; margin: 20px; animation: fadeIn 0.5s ease;">
+            <h2 style="margin-top: 0;"><i class="fas fa-lock"></i> Вход для администратора</h2>
+            <p>Введите логин и пароль для доступа к управлению ролями.</p>
+            
+            <form id="adminLoginForm" class="admin-login-form">
+                <div class="form-group">
+                    <label for="adminUsername"><i class="fas fa-user"></i> Логин</label>
+                    <input type="text" id="adminUsername" class="form-control" placeholder="Введите логин" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminPassword"><i class="fas fa-key"></i> Пароль</label>
+                    <input type="password" id="adminPassword" class="form-control" placeholder="Введите пароль" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="action-button" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </button>
+                    <button type="button" class="btn-secondary" id="cancelLoginBtn" style="width: 100%;">
+                        <i class="fas fa-times"></i> Отмена
+                    </button>
+                </div>
+            </form>
+            
+            <div class="accent-border" style="margin-top: 20px;">
+                <p><i class="fas fa-info-circle green-accent"></i> <span class="green-accent">Информация:</span> Для получения доступа обратитесь к создателю сообщества.</p>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">𝓭𝓻𝓮𝓪𝓶 𝓭𝓲𝓪𝓻𝔂</div>
+                <div class="admin-status">
+                    <div class="admin-badge" id="adminBadge">
+                        <i class="fas fa-user-shield"></i> Администратор
+                    </div>
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </button>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home"><i class="fas fa-home"></i> Приветствие</a></li>
+                    <li><a href="#" class="nav-link" data-page="rules"><i class="fas fa-book"></i> Правила</a></li>
+                    <li><a href="#" class="nav-link" data-page="cleaning"><i class="fas fa-broom"></i> Чистка</a></li>
+                    <li><a href="#" class="nav-link" data-page="rest"><i class="fas fa-bed"></i> Рест</a></li>
+                    <li><a href="#" class="nav-link" data-page="roles"><i class="fas fa-users"></i> Роли</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="home" class="page active">
+            <div class="content-card">
+                <h1>Добро пожаловать в 𝓭𝓻𝓮𝓪𝓶 𝓭𝓲𝓪𝓻𝔂</h1>
+                
+                <div class="image-container">
+                    <img src="навигация.jpg" alt="Приветствие">
+                    <div class="image-title">Добро пожаловать в наше уютное сообщество</div>
+                </div>
+                
+                <p>Мы рады приветствовать вас в нашем уютном сообществе <span class="pink-accent">𝓭𝓻𝓮𝓪𝓶 𝓭𝓲𝓪𝓻𝔂</span>! Здесь вы можете общаться, делиться мыслями и находить новых друзей в атмосфере взаимного уважения и поддержки.</p>
+                
+                <div class="info-box">
+                    <div>
+                        <h3 style="margin: 0; color: var(--eucalyptus);">Основные правила:</h3>
+                        <p style="margin: 8px 0 0 0; font-size: 0.95rem; color: var(--medium-text);">Простые и понятные правила для комфортного общения</p>
+                    </div>
+                    <div class="counter-value" id="rulesCount">12</div>
+                </div>
+                
+                <p>Наш флуд - это место, где можно расслабиться и быть собой. Пожалуйста, ознакомьтесь с правилами, чтобы всем участникам было комфортно и безопасно.</p>
+                
+                <div class="accent-border">
+                    <p><i class="fas fa-star green-accent"></i> <span class="green-accent">Внимание:</span> Перед активным участием в сообществе обязательно ознакомьтесь с правилами.</p>
+                </div>
+                
+                <button class="action-button nav-link" data-page="rules">
+                    <i class="fas fa-book-open"></i> Ознакомиться с правилами
+                </button>
+            </div>
+        </div>
+
+        <div id="rules" class="page">
+            <div class="content-card">
+                <h1>ПРАВИЛА СООБЩЕСТВА</h1>
+                <div class="separator">✦ ✦ ✦ ✦ ✦</div>
+                
+                <div class="image-container">
+                    <img src="правила.jpg" alt="Правила">
+                    <div class="image-title">Соблюдение правил обеспечивает комфорт для всех участников</div>
+                </div>
+                
+                <div class="rule-item"><span class="pink-highlight">Без спама.</span> Не больше 5 бесполезных сообщений подряд, 3 стикера подряд либо кидать почти каждый раз, то же самое с гифками и фотографиями. <strong>Наказание:</strong> мут.</div>
+                <div class="rule-item"><span class="pink-highlight">Конфликты.</span> Не создавать конфликты и не участвовать в них. <strong>Наказание:</strong> варн и мут.</div>
+                <div class="rule-item"><span class="pink-highlight">Оскорбления.</span> Шуточные и мягкие оскорбления разрешены. <strong>Наказание:</strong> варн.</div>
+                <div class="rule-item"><span class="pink-highlight">18+ контент.</span> Запрещено отправлять расчленёнку, порно и т.п. <strong>Наказание:</strong> бан.</div>
+                <div class="rule-item"><span class="pink-highlight">Чистка.</span> Писать во время чистки нельзя.</div>
+                <div class="rule-item"><span class="pink-highlight">Неактив.</span> Без Реста больше 5 дней - варн, больше 8 дней - бан.</div>
+                <div class="rule-item"><span class="pink-highlight">Политика.</span> Политика строго запрещена. <strong>Наказание:</strong> варн.</div>
+                <div class="rule-item"><span class="pink-highlight">Религии.</span> Запрещено писать плохое про религии, Аллаха и т.п. <strong>Наказание:</strong> варн.</div>
+                <div class="rule-item"><span class="pink-highlight">Реклама.</span> Реклама тгк, товаров и т.п запрещена. <strong>Наказание:</strong> варн.</div>
+                <div class="rule-item"><span class="pink-highlight">Реклама 2.</span> Реклама алкоголя, сигарет, трав и т.п строго запрещена. <strong>Наказание:</strong> бан.</div>
+                <div class="rule-item"><span class="pink-highlight">Возраст.</span> Возрастное ограничение - до 15 лет. Если мы усомнимся в вашем возрасте, то имеем право попросить доказательства.</div>
+                <div class="rule-item"><span class="pink-highlight">Наказания.</span> Все варны даются на 2 недели, мут - зависит от ситуации.</div>
+                
+                <div class="accent-border">
+                    <p><i class="fas fa-exclamation-circle green-accent"></i> <span class="green-accent">Важно:</span> Администрация оставляет за собой право изменять правила по мере необходимости.</p>
+                </div>
+                
+                <button class="action-button" id="markRulesReadBtn">
+                    <i class="fas fa-check-circle"></i> Отметить правила как прочитанные
+                </button>
+                
+                <div class="separator">✦ ✦ ✦ ✦ ✦</div>
+            </div>
+        </div>
+
+        <div id="cleaning" class="page">
+            <div class="content-card">
+                <h1>СИСТЕМА ЧИСТКИ</h1>
+                <div class="separator">✦ ✦ ✦ ✦ ✦</div>
+                
+                <div class="image-container">
+                    <img src="чистка.jpg" alt="Чистка">
+                    <div class="image-title">Чистка проходит каждое воскресенье в 21:00 по МСК</div>
+                </div>
+                
+                <p>Норма активности: <span class="green-highlight">80 сообщений/неделя</span>. Чистка проходит в воскресенье в 21:00 по мск.</p>
+                
+                <div class="rule-item">1-65 сообщений - бан, 66-79 - варн (второй раз - бан).</div>
+                <div class="rule-item">Чистка не касается тех, кто вступил до 5 дней перед чисткой.</div>
+                
+                <div class="accent-border">
+                    <p><i class="fas fa-clock green-accent"></i> <span class="green-accent">Следующая чистка:</span> <span id="nextCleaning">воскресенье, 21:00</span></p>
+                    <p><i class="fas fa-ban pink-accent"></i> <span class="pink-accent">Важно:</span> Во время чистки писать запрещено!</p>
+                </div>
+                
+                <div class="info-box">
+                    <div>
+                        <h3 style="margin: 0; color: var(--eucalyptus);">Минимальная активность:</h3>
+                        <p style="margin: 8px 0 0 0; font-size: 0.95rem; color: var(--medium-text);">Сообщений в неделю</p>
+                    </div>
+                    <div class="counter-value">80</div>
+                </div>
+                
+                <div class="separator">✦ ✦ ✦ ✦ ✦</div>
+            </div>
+        </div>
+
+        <div id="rest" class="page">
+            <div class="content-card">
+                <h1>СИСТЕМА РЕСТА</h1>
+                <div class="separator">✦ ✦ ✦ ✦ ✦</div>
+                
+                <div class="image-container">
+                    <img src="рест.jpg" alt="Рест">
+                    <div class="image-title">Время отдохнуть и набраться сил</div>
+                </div>
+                
+                <div class="rule-item">Максимальный срок Реста - <span class="pink-highlight">1 месяц</span>.</div>
+                <div class="rule-item">Рест можно брать только после недели нахождения во флуде.</div>
+                <div class="rule-item">Запрещено брать рест перед чистка (за 6 часов).</div>
+                
+                <div class="accent-border">
+                    <p><i class="fas fa-bell green-accent"></i> <span class="green-accent">Напоминание:</span> Не забудьте уведомить администрацию о взятии реста!</p>
+                    <p><i class="fas fa-calendar-alt pink-accent"></i> <span class="pink-accent">Информация:</span> Для взятия реста обратитесь к администрации.</p>
+                </div>
+                
+                <div class="separator">✦ ✦ ✦ ✦ ✦</div>
+            </div>
+        </div>
+
+        <div id="roles" class="page">
+            <div class="content-card">
+                <h1>СПИСОК РОЛЕЙ СООБЩЕСТВА</h1>
+                <div class="separator">✦ ✦ ✦ ✦ ✦</div>
+                
+                <div class="image-container">
+                    <img src="роли.jpg" alt="Роли">
+                    <div class="image-title">Доступные роли в нашем сообществе</div>
+                </div>
+                
+                <p>В нашем сообществе доступны различные роли из популярных аниме и игр. Выберите роль, которая вам ближе всего, и присоединяйтесь к общению!</p>
+                
+                <div class="roles-container" id="rolesContainer"></div>
+                
+                <!-- Блок входа для администратора -->
+                <div class="admin-login-section" id="adminLoginSection">
+                    <h2><i class="fas fa-user-shield"></i> Управление ролями</h2>
+                    <p>Для добавления, редактирования и удаления ролей требуется войти как администратор.</p>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button class="action-button" id="showLoginBtn">
+                            <i class="fas fa-sign-in-alt"></i> Войти как администратор
+                        </button>
+                    </div>
+                    
+                    <div class="accent-border">
+                        <p><i class="fas fa-info-circle green-accent"></i> <span class="green-accent">Информация:</span> Для получения доступа к управлению ролями обратитесь к создателю сообщества.</p>
+                    </div>
+                </div>
+                
+                <!-- Секция управления ролями (только для админа) -->
+                <div class="roles-management admin-only" id="rolesManagementSection">
+                    <h2><i class="fas fa-cogs"></i> Управление ролями</h2>
+                    <p>Вы вошли как администратор. Теперь вы можете добавлять, редактировать и удалять роли. Все изменения сохраняются автоматически.</p>
+                    
+                    <form id="roleForm">
+                        <input type="hidden" id="roleId" value="">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="roleName"><i class="fas fa-user"></i> Название роли</label>
+                                <input type="text" id="roleName" class="form-control" placeholder="Например: Лелуш Ламперуж" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="roleSource"><i class="fas fa-film"></i> Источник (аниме/игра)</label>
+                                <input type="text" id="roleSource" class="form-control" placeholder="Например: Code Geass" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="roleIcon"><i class="fas fa-icons"></i> Иконка FontAwesome</label>
+                                <input type="text" id="roleIcon" class="form-control" placeholder="Например: crown, gamepad, user" required>
+                                <small style="color: var(--medium-text); margin-top: 5px; display: block;">
+                                    Доступные иконки: <a href="https://fontawesome.com/icons" target="_blank" style="color: var(--dusty-pink);">FontAwesome Icons</a>
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="roleDescription"><i class="fas fa-align-left"></i> Описание</label>
+                                <textarea id="roleDescription" class="form-control" rows="3" placeholder="Краткое описание персонажа..." required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="action-button" id="saveRoleBtn">
+                                <i class="fas fa-save"></i> Сохранить роль
+                            </button>
+                            <button type="button" class="btn-secondary" id="clearFormBtn">
+                                <i class="fas fa-times"></i> Очистить форму
+                            </button>
+                            <button type="button" class="btn-danger" id="deleteAllBtn">
+                                <i class="fas fa-trash-alt"></i> Удалить все роли
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="accent-border">
+                    <p><i class="fas fa-info-circle green-accent"></i> <span class="green-accent">Информация:</span> Чтобы получить роль, обратитесь к администрации сообщества. Вы можете предложить свою роль, если её нет в списке.</p>
+                </div>
+                
+                <div class="separator">✦ ✦ ✦ ✦ ✦</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Конфигурация администратора (можно изменить)
+            const ADMIN_CONFIG = {
+                username: "Биша",
+                password: "я ебейшая"
+            };
+            
+            // Элементы DOM
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mainNav = document.getElementById('mainNav');
+            const backToTop = document.getElementById('backToTop');
+            const toast = document.getElementById('toast');
+            const nextCleaning = document.getElementById('nextCleaning');
+            const markRulesReadBtn = document.getElementById('markRulesReadBtn');
+            const rulesCount = document.getElementById('rulesCount');
+            const rolesContainer = document.getElementById('rolesContainer');
+            const roleForm = document.getElementById('roleForm');
+            const roleId = document.getElementById('roleId');
+            const roleName = document.getElementById('roleName');
+            const roleSource = document.getElementById('roleSource');
+            const roleIcon = document.getElementById('roleIcon');
+            const roleDescription = document.getElementById('roleDescription');
+            const saveRoleBtn = document.getElementById('saveRoleBtn');
+            const clearFormBtn = document.getElementById('clearFormBtn');
+            const deleteAllBtn = document.getElementById('deleteAllBtn');
+            const adminLoginSection = document.getElementById('adminLoginSection');
+            const rolesManagementSection = document.getElementById('rolesManagementSection');
+            const showLoginBtn = document.getElementById('showLoginBtn');
+            const loginModal = document.getElementById('loginModal');
+            const adminLoginForm = document.getElementById('adminLoginForm');
+            const cancelLoginBtn = document.getElementById('cancelLoginBtn');
+            const adminBadge = document.getElementById('adminBadge');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            // Проверяем, вошел ли пользователь как администратор
+            let isAdmin = localStorage.getItem('dreamDiaryAdminLogged') === 'true';
+            
+            // Данные ролей
+            let rolesData = JSON.parse(localStorage.getItem('dreamDiaryRoles')) || [];
+            
+            // Инициализация ролей по умолчанию
+            if (rolesData.length === 0) {
+                rolesData = [
+                    {
+                        id: 1,
+                        name: "Бишамон",
+                        source: "Бездомный бог",
+                        icon: "crown",
+                        description: "Бог войны и боевых искусств, один из семи богов удачи."
+                    },
+                    {
+                        id: 2,
+                        name: "Чиаки Нанами",
+                        source: "Данганаронпа",
+                        icon: "gamepad",
+                        description: "Мастер гейм-индустрии, куратор и наставник."
+                    },
+                    {
+                        id: 3,
+                        name: "Дазай Осаму",
+                        source: "Великий из бродячих псов",
+                        icon: "dog",
+                        description: "Бывший исполнитель темных дел, детектив с уникальными способностями."
+                    },
+                    {
+                        id: 4,
+                        name: "Грелль Сатклифф",
+                        source: "Тёмный дворецкий",
+                        icon: "glasses",
+                        description: "Грим-рипер с необычным характером и любовью к цепной пиле."
+                    },
+                    {
+                        id: 5,
+                        name: "Гин Ичимару",
+                        source: "Блич",
+                        icon: "sun",
+                        description: "Капитан 3-го отряда Готея 13, хитрый и расчетливый стратег."
+                    },
+                    {
+                        id: 6,
+                        name: "Рюк",
+                        source: "Тетрадь смерти",
+                        icon: "skull",
+                        description: "Бог смерти, наблюдающий за играми смертных из своего мира."
+                    },
+                    {
+                        id: 7,
+                        name: "Рийо Рипер",
+                        source: "Гачиакута",
+                        icon: "mask",
+                        description: "Загадочный персонаж с уникальными способностями и прошлым."
+                    },
+                    {
+                        id: 8,
+                        name: "Разные персонажи",
+                        source: "Геншин Импакт",
+                        icon: "mountain",
+                        description: "Выберите любого персонажа из мира Тейват для ролевой игры."
+                    }
+                ];
+                saveRolesToStorage();
+            }
+            
+            // Функция сохранения ролей в localStorage
+            function saveRolesToStorage() {
+                localStorage.setItem('dreamDiaryRoles', JSON.stringify(rolesData));
+            }
+            
+            // Функция отображения ролей
+            function displayRoles() {
+                rolesContainer.innerHTML = '';
+                
+                rolesData.forEach(role => {
+                    const roleCard = document.createElement('div');
+                    roleCard.className = 'role-card';
+                    roleCard.dataset.id = role.id;
+                    
+                    roleCard.innerHTML = `
+                        <div class="role-icon">
+                            <i class="fas fa-${role.icon}"></i>
+                        </div>
+                        <div class="role-title">${role.name}</div>
+                        <div class="role-source">${role.source}</div>
+                        <div class="role-description">${role.description}</div>
+                        ${isAdmin ? `
+                        <div class="role-actions">
+                            <button class="edit-btn" data-id="${role.id}">
+                                <i class="fas fa-edit"></i> Изменить
+                            </button>
+                            <button class="delete-btn" data-id="${role.id}">
+                                <i class="fas fa-trash"></i> Удалить
+                            </button>
+                        </div>
+                        ` : ''}
+                    `;
+                    
+                    rolesContainer.appendChild(roleCard);
+                });
+                
+                // Добавляем обработчики для кнопок редактирования и удаления
+                if (isAdmin) {
+                    document.querySelectorAll('.edit-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const id = parseInt(this.dataset.id);
+                            editRole(id);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const id = parseInt(this.dataset.id);
+                            deleteRole(id);
+                        });
+                    });
+                }
+            }
+            
+            // Функция редактирования роли
+            function editRole(id) {
+                const role = rolesData.find(r => r.id === id);
+                if (role) {
+                    roleId.value = role.id;
+                    roleName.value = role.name;
+                    roleSource.value = role.source;
+                    roleIcon.value = role.icon;
+                    roleDescription.value = role.description;
+                    
+                    saveRoleBtn.innerHTML = '<i class="fas fa-edit"></i> Обновить роль';
+                    showToast('Режим редактирования активирован', 2500);
+                    roleName.focus();
+                }
+            }
+            
+            // Функция удаления роли
+            function deleteRole(id) {
+                if (confirm('Вы уверены, что хотите удалить эту роль?')) {
+                    rolesData = rolesData.filter(r => r.id !== id);
+                    saveRolesToStorage();
+                    displayRoles();
+                    showToast('Роль успешно удалена', 2500);
+                }
+            }
+            
+            // Обработчик формы роли
+            roleForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!isAdmin) {
+                    showToast('Ошибка: доступ запрещен. Войдите как администратор.', 3000);
+                    return;
+                }
+                
+                const id = roleId.value ? parseInt(roleId.value) : Date.now();
+                const name = roleName.value.trim();
+                const source = roleSource.value.trim();
+                const icon = roleIcon.value.trim();
+                const description = roleDescription.value.trim();
+                
+                if (!name || !source || !icon || !description) {
+                    showToast('Пожалуйста, заполните все поля', 3000);
+                    return;
+                }
+                
+                const roleIndex = rolesData.findIndex(r => r.id === id);
+                
+                if (roleIndex > -1) {
+                    rolesData[roleIndex] = { id, name, source, icon, description };
+                    showToast('Роль успешно обновлена', 2500);
+                } else {
+                    rolesData.push({ id, name, source, icon, description });
+                    showToast('Новая роль успешно добавлена', 2500);
+                }
+                
+                saveRolesToStorage();
+                displayRoles();
+                clearForm();
+            });
+            
+            // Очистка формы
+            clearFormBtn.addEventListener('click', clearForm);
+            
+            // Удаление всех ролей
+            deleteAllBtn.addEventListener('click', function() {
+                if (!isAdmin) {
+                    showToast('Ошибка: доступ запрещен. Войдите как администратор.', 3000);
+                    return;
+                }
+                
+                if (confirm('Вы уверены, что хотите удалить ВСЕ роли? Это действие нельзя отменить.')) {
+                    rolesData = [];
+                    saveRolesToStorage();
+                    displayRoles();
+                    clearForm();
+                    showToast('Все роли удалены', 3000);
+                }
+            });
+            
+            // Функция очистки формы
+            function clearForm() {
+                roleId.value = '';
+                roleName.value = '';
+                roleSource.value = '';
+                roleIcon.value = '';
+                roleDescription.value = '';
+                saveRoleBtn.innerHTML = '<i class="fas fa-save"></i> Сохранить роль';
+            }
+            
+            // Функция обновления интерфейса в зависимости от статуса администратора
+            function updateAdminUI() {
+                if (isAdmin) {
+                    adminBadge.style.display = 'flex';
+                    logoutBtn.style.display = 'flex';
+                    adminLoginSection.style.display = 'none';
+                    rolesManagementSection.classList.add('visible');
+                } else {
+                    adminBadge.style.display = 'none';
+                    logoutBtn.style.display = 'none';
+                    adminLoginSection.style.display = 'block';
+                    rolesManagementSection.classList.remove('visible');
+                }
+            }
+            
+            // Показать модальное окно входа
+            showLoginBtn.addEventListener('click', function() {
+                loginModal.style.display = 'flex';
+            });
+            
+            // Скрыть модальное окно входа
+            cancelLoginBtn.addEventListener('click', function() {
+                loginModal.style.display = 'none';
+            });
+            
+            // Обработчик формы входа
+            adminLoginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('adminUsername').value.trim();
+                const password = document.getElementById('adminPassword').value.trim();
+                
+                if (username === ADMIN_CONFIG.username && password === ADMIN_CONFIG.password) {
+                    isAdmin = true;
+                    localStorage.setItem('dreamDiaryAdminLogged', 'true');
+                    
+                    updateAdminUI();
+                    displayRoles();
+                    
+                    loginModal.style.display = 'none';
+                    showToast('Вы успешно вошли как администратор!', 3000);
+                    
+                    // Очищаем поля формы
+                    document.getElementById('adminUsername').value = '';
+                    document.getElementById('adminPassword').value = '';
+                } else {
+                    showToast('Неверный логин или пароль', 3000);
+                }
+            });
+            
+            // Выход из аккаунта администратора
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Вы уверены, что хотите выйти из аккаунта администратора?')) {
+                    isAdmin = false;
+                    localStorage.removeItem('dreamDiaryAdminLogged');
+                    
+                    updateAdminUI();
+                    displayRoles();
+                    clearForm();
+                    
+                    showToast('Вы вышли из аккаунта администратора', 2500);
+                }
+            });
+            
+            // Навигация по страницам
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    pages.forEach(page => page.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    
+                    const pageId = this.getAttribute('data-page');
+                    document.getElementById(pageId).classList.add('active');
+                    
+                    if (window.innerWidth <= 768) {
+                        mainNav.classList.remove('active');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                    
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    
+                    if (pageId === 'rules') {
+                        showToast('Ознакомьтесь с правилами нашего сообщества! 📚', 2500);
+                    }
+                });
+            });
+            
+            // Мобильное меню
+            mobileMenuBtn.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
+                
+                const icon = this.querySelector('i');
+                if (mainNav.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Закрытие мобильного меню при клике вне его
+            document.addEventListener('click', function(event) {
+                const isClickInsideNav = mainNav.contains(event.target);
+                const isClickOnMenuBtn = mobileMenuBtn.contains(event.target);
+                
+                if (!isClickInsideNav && !isClickOnMenuBtn && mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+            
+            // Кнопка "Наверх"
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+            
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Обновление даты чистки
+            function updateCleaningDate() {
+                const now = new Date();
+                const daysUntilSunday = 7 - now.getDay();
+                const nextSunday = new Date(now);
+                nextSunday.setDate(now.getDate() + daysUntilSunday);
+                
+                const options = { weekday: 'long', day: 'numeric', month: 'long' };
+                const dateString = nextSunday.toLocaleDateString('ru-RU', options);
+                
+                nextCleaning.textContent = `${dateString}, 21:00`;
+            }
+            
+            // Отметить правила как прочитанные
+            markRulesReadBtn.addEventListener('click', function() {
+                localStorage.setItem('dreamDiaryRulesRead', 'true');
+                showToast('Правила отмечены как прочитанные! ✅', 2500);
+                
+                this.innerHTML = '<i class="fas fa-check"></i> Правила прочитаны';
+                this.style.background = 'linear-gradient(to right, #8BA892, #7A9A82)';
+                this.style.boxShadow = '0 5px 15px rgba(139, 168, 146, 0.35)';
+                this.disabled = true;
+                
+                rulesCount.textContent = '✓';
+                rulesCount.style.color = '#8BA892';
+            });
+            
+            // Функция показа уведомлений
+            function showToast(message, duration = 3000) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, duration);
+            }
+            
+            // Инициализация при загрузке
+            window.addEventListener('load', function() {
+                document.body.style.opacity = '0';
+                document.body.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                }, 100);
+                
+                // Проверка прочитанных правил
+                if (localStorage.getItem('dreamDiaryRulesRead')) {
+                    rulesCount.textContent = '✓';
+                    rulesCount.style.color = '#8BA892';
+                    
+                    markRulesReadBtn.innerHTML = '<i class="fas fa-check"></i> Правила прочитаны';
+                    markRulesReadBtn.style.background = 'linear-gradient(to right, #8BA892, #7A9A82)';
+                    markRulesReadBtn.style.boxShadow = '0 5px 15px rgba(139, 168, 146, 0.35)';
+                    markRulesReadBtn.disabled = true;
+                }
+                
+                // Обновление UI для администратора
+                updateAdminUI();
+                
+                // Отображение ролей
+                displayRoles();
+                
+                // Обновление даты чистки
+                updateCleaningDate();
+                
+                // Приветственное сообщение
+                setTimeout(() => {
+                    showToast('Добро пожаловать в 𝓭𝓻𝓮𝓪𝓶 𝓭𝓲𝓪𝓻𝔂! ✨', 3000);
+                }, 1000);
+            });
+            
+            // Закрытие модального окна при клике на фон
+            loginModal.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
